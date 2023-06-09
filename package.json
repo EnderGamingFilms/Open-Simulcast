@@ -1,0 +1,36 @@
+{
+  "name": "open-simulcast",
+  "version": "1.0.0",
+  "description": "A custom RTMP re-streaming solution",
+  "type": "module",
+  "main": "src/backend/server.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start:app": "node src/backend/server.js",
+    "start:web": "npm run dev",
+    "start": "concurrently \"npm run start:app\" \"npm run start:web\""
+  },
+  "dependencies": {
+    "@jamescoyle/svelte-icon": "^0.1.1",
+    "@mdi/js": "^7.2.96",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@svelteuidev/composables": "^0.13.0",
+    "@svelteuidev/core": "^0.13.0",
+    "dockerode": "^3.3.5",
+    "express": "^4.18.2",
+    "rollup-plugin-css-only": "^4.3.0",
+    "rollup-plugin-svelte": "^7.1.2",
+    "svelte": "^3.55.0",
+    "uuid": "^9.0.0"
+  },
+  "author": "ItWasEnder",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "concurrently": "^8.1.0",
+    "rollup": "^3.24.0",
+    "rollup-plugin-livereload": "^2.0.5"
+  }
+}
