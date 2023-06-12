@@ -9,12 +9,14 @@ const filePath = process.env.SERVICES_PATH || path.resolve(__dirname, '../../../
 async function loadServices() {
     console.log('Loading services...');
 
-    if (fs.existsSync(filePath)) {
-        const servicesJson = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, '[]', 'utf-8');
+    }
 
-        for (const service of servicesJson) {
-            addService(service);
-        }
+    const servicesJson = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+
+    for (const service of servicesJson) {
+        addService(service);
     }
 }
 
