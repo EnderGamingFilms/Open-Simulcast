@@ -8,7 +8,7 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.2
 
 # Install dependencies Stunnel4
 RUN apt-get update && \
-    apt-get install -y ca-certificates openssl libssl-dev stunnel4 gettext && \
+    apt-get install -y --no-install-recommends ca-certificates openssl libssl-dev stunnel4 gettext && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and decompress Nginx
@@ -52,14 +52,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 
 # Create the necessary folders
 RUN mkdir -p /app/data
-RUN mkdir /include
+RUN mkdir -p /include
 
-# Copy over the configuration templates
-COPY ./include/nginx.conf.template /include/nginx.conf.template
-COPY ./include/stunnel.conf.template /include/stunnel.conf.template
-
-# Copy the start script
-COPY ./include/docker-entrypoint.sh /include/docker-entrypoint.sh
+# Copy over the configurations
+COPY ./include/ /include/
 
 # Make the start script executable
 RUN chmod +x /include/docker-entrypoint.sh

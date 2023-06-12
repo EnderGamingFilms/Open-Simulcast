@@ -2,22 +2,36 @@ FROM endergamingfilms/nginx-rtmps
 
 LABEL maintainer="EnderGamingFilms"
 
-# Versions of NodeJS to use
-ENV NODE_VERSION 18.x
+# use bash so we can source files
+SHELL ["/bin/bash", "-c"]
+
+# update the repository sources list
+# and install dependencies
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get -y autoclean
+
+# nvm environment variables
+ENV NVM_DIR /usr/local/nvm
+ENV NVM_VERSION 0.37.2
+ENV NODE_VERSION 18.16.0
 ENV NPM_VERSION 9.7.1
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y curl
+# install node via nvm
+RUN mkdir -p ${NVM_DIR} \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
+    && source ${NVM_DIR}/nvm.sh \
+    && nvm install ${NODE_VERSION} \
+    && npm install -g npm@${NPM_VERSION} \
+    && nvm alias default ${NODE_VERSION}
 
-# Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/${NODE_VERSION} | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm@${NPM_VERSION} && \
-    rm -rf /var/lib/apt/lists/*
+# add node and npm to path so the commands are available
+ENV NODE_PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/lib/node_modules
+ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:$PATH
 
-# Check installation
-RUN node -v && npm -v
+RUN source ~/.bashrc && nvm --version
+
+RUN mkdir -p /include
 
 # Copy over the configurations
 COPY ./include/ /include/
@@ -37,11 +51,17 @@ RUN git clone https://github.com/EnderGamingFilms/Open-Simulcast.git
 # Change working directory
 WORKDIR /Open-Simulcast
 
-# Install dependencies
-RUN npm install
+# Make the scripts executable
+RUN chmod -R +x .
 
-# Install dependencies for client
-RUN npm run client-install
+# Install project dependencies
+RUN npm install && npm run client-install
+
+# Change working directory
+WORKDIR /Open-Simulcast/client
+
+# Build the client
+RUN npm run build
 
 # Set the start script as the entrypoint
 ENTRYPOINT ["/include/docker-entrypoint.sh"]
