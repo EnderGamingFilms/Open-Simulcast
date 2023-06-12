@@ -11,6 +11,11 @@ RUN apt-get update \
     && apt-get install -y curl \
     && apt-get -y autoclean
 
+# env variables
+ENV CONTAINER_STORES=/app/data/containers
+ENV RTMP_CONFIG_PATH=/app/data/nginx.conf.template
+ENV SERVICES_PATH=/app/data/services.json
+
 # nvm environment variables
 ENV NVM_DIR /usr/local/nvm
 ENV NVM_VERSION 0.37.2

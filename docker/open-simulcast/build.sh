@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t endergamingfilms/open-simulcast -f ./Dockerfile . --no-cache
+docker build -t endergamingfilms/open-simulcast:latest -f ./Dockerfile . --no-cache

@@ -3,7 +3,7 @@ const path = require('path');
 
 let data = [];
 
-const filePath = path.resolve(__dirname, '../../../local/services.json');
+const filePath = process.env.SERVICES_PATH || path.resolve(__dirname, '../../../local/services.json');
 
 // Function to load services from the JSON file
 async function loadServices() {

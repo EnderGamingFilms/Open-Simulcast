@@ -8,7 +8,7 @@ function generatePushConfig(service) {
 }
 
 async function generateNginxConfig() {
-    const templateFilePath = path.join(__dirname, process.env.RTMP_CONFIG_PATH);
+    const templateFilePath = process.env.RTMP_CONFIG_PATH || path.join(__dirname, '../../../local/containers');
     const configFilePath = '/etc/nginx/nginx.conf';
 
     // Load the template NGINX config

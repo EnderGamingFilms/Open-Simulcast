@@ -23,7 +23,7 @@ if (os.platform() === 'win32') {
     usingNginx = true;
 }
 
-mountPath = path.join(process.env.CONTAINER_STORES);
+mountPath = process.env.CONTAINER_STORES || '/app/data/containers/';
 
 // Store NodeMediaServer instances
 const data = new Map();

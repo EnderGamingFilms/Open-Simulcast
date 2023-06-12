@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t endergamingfilms/nginx-rtmps -f ./Dockerfile .
+docker build -t endergamingfilms/nginx-rtmps:latest -f ./Dockerfile .
