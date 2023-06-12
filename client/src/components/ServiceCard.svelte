@@ -163,13 +163,13 @@
     margin: 0.5em 0;
   }
 
-  .container-id {
+  /* .container-id {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     margin-top: 5%;
-  }
+  } */
 
   h2 {
     margin: 0.5rem 0;
