@@ -68,5 +68,7 @@ WORKDIR /Open-Simulcast/client
 # Build the client
 RUN npm run build
 
+WORKDIR /Open-Simulcast
+
 # Set the start script as the entrypoint
 ENTRYPOINT ["/include/docker-entrypoint.sh"]
