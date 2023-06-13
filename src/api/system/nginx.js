@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 const services = require('../services/services.js');
 
 function generatePushConfig(service) {
-    return `push rtmp://127.0.0.1:${service.port}/app;`;
+    return `push rtmp://${service.containerAddress}:${service.port}/app;`;
 }
 
 async function generateNginxConfig() {
@@ -30,7 +30,7 @@ async function generateNginxConfig() {
 function reloadNginx() {
     // Use the appropriate command for your system to reload NGINX
     // This command may differ based on your OS
-    exec("sudo nginx -s reload", (error, stdout, stderr) => {
+    exec("nginx -s reload", (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
             return;

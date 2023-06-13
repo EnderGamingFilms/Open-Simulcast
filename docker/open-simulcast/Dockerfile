@@ -37,6 +37,12 @@ ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:$PATH
 RUN source ~/.bashrc && nvm --version
 
 RUN mkdir -p /include
+RUN mkdir -p /var/log/nginx
+
+RUN touch /var/log/nginx/error.log \
+    && touch /var/log/nginx/access.log \
+    && touch /var/log/nginx/rtmp.log \
+    && touch /var/log/nginx/nginx.pid
 
 # Copy over the configurations
 COPY ./include/ /include/
@@ -49,6 +55,9 @@ EXPOSE 5173
 
 # RTMP
 EXPOSE 1935
+
+# API
+EXPOSE 5678
 
 # Clone your repository
 RUN git clone https://github.com/EnderGamingFilms/Open-Simulcast.git

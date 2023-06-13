@@ -9,11 +9,9 @@ const filePath = process.env.SERVICES_PATH || path.resolve(__dirname, '../../../
 async function loadServices() {
     console.log(`Loading services from ${filePath}...`);
 
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(filePath) || fs.readFileSync(filePath, 'utf-8') === '') {
         fs.writeFileSync(filePath, '[]', 'utf-8');
     }
-
-    console.log('DEBUG - ' + fs.readFileSync(filePath, 'utf-8'));
 
     const servicesJson = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 

@@ -123,6 +123,9 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         container.stop();
     }
 
+    const inspectResult = await container.inspect();
+    const containerAddress = inspectResult.NetworkSettings.IPAddress;
+
     // Add service to services
     services.addService({
         serviceName,
@@ -132,6 +135,7 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         useTls,
         enabled,
         containerId: container.id,
+        containerAddress,
         serviceId: serviceIdentifier
     });
 
