@@ -37,12 +37,12 @@ function reloadNginx() {
         }
 
         if (stderr) {
-            console.log(`stderr: ${stderr}`);
+            console.log(stderr);
             return;
         }
 
         if (stdout) {
-            console.log(`stdout: ${stdout}`);
+            console.log(stdout);
         }
     });
 }

@@ -20,7 +20,6 @@ router.post('/', async (req, res) => {
     const result = await streams.createContainer(serviceName, port, rtmpUrl, streamKey, useTls, true);
 
     const created = services.get(result.serviceId);
-    console.log('got: ' + created);
 
     res.status(201).json(created);
 });

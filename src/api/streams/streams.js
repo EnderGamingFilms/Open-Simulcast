@@ -23,7 +23,7 @@ if (os.platform() === 'win32') {
     usingNginx = true;
 }
 
-mountPath = process.env.CONTAINER_STORES || '/app/data/containers/';
+mountPath = process.env.CONTAINER_STORES || '../../../local/containers';
 
 // Store NodeMediaServer instances
 const data = new Map();
@@ -123,9 +123,6 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         container.stop();
     }
 
-    const inspectResult = await container.inspect();
-    const containerAddress = inspectResult.NetworkSettings.IPAddress;
-
     // Add service to services
     services.addService({
         serviceName,
@@ -135,7 +132,6 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         useTls,
         enabled,
         containerId: container.id,
-        containerAddress,
         serviceId: serviceIdentifier
     });
 
