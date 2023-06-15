@@ -216,9 +216,9 @@ async function startStream(serviceId) {
 async function deleteStream(serviceId) {
     const container = data.get(serviceId);
 
-    await container.remove();
-
     data.delete(serviceId);
+
+    await container.remove();
 }
 
 // Function to stop all stream containers
