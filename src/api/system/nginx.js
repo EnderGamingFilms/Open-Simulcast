@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 const services = require('../services/services.js');
 
 function generatePushConfig(service) {
-    return `push rtmp://host.docker.internal:${service.port}/app;`;
+    return `push rtmp://0.0.0.0:${service.port}/app;`;
 }
 
 async function generateNginxConfig() {
