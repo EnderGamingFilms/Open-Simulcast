@@ -1,3 +1,5 @@
+FROM node:18-slim
+
 FROM endergamingfilms/nginx-rtmps
 
 LABEL maintainer="EnderGamingFilms"
@@ -12,9 +14,9 @@ RUN apt-get update \
     && apt-get -y autoclean
 
 # env variables
-ENV CONTAINER_STORES=/app/data/containers
-ENV RTMP_CONFIG_PATH=/app/data/nginx.conf.template
-ENV SERVICES_PATH=/app/data/services.json
+ENV CONTAINER_STORES=/data/containers
+ENV RTMP_CONFIG_PATH=/data/nginx.conf.template
+ENV SERVICES_PATH=/data/services.json
 
 # nvm environment variables
 ENV NVM_DIR /usr/local/nvm
@@ -36,8 +38,7 @@ ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:$PATH
 
 RUN source ~/.bashrc && nvm --version
 
-RUN mkdir -p /include
-RUN mkdir -p /var/log/nginx
+RUN mkdir -p /include && mkdir -p /data && mkdir -p /var/log/nginx
 
 RUN touch /var/log/nginx/error.log \
     && touch /var/log/nginx/access.log \
@@ -50,34 +51,30 @@ COPY ./include/ /include/
 # Make the start script executable
 RUN chmod -R +x /include/
 
-# WEBUI
-EXPOSE 5173
-
 # RTMP
 EXPOSE 1935
 
-# API
+# EXPRESS SERVER
 EXPOSE 5678
 
-# Clone your repository
+# Get the latest version of Open-Simulcast
 RUN git clone https://github.com/EnderGamingFilms/Open-Simulcast.git
 
 # Change working directory
 WORKDIR /Open-Simulcast
 
-# Make the scripts executable
+# Make the scripts executatgfv ble
 RUN chmod -R +x .
 
 # Install project dependencies
 RUN npm install && npm run client-install
 
-# Change working directory
-WORKDIR /Open-Simulcast/client
-
 # Build the client
-RUN npm run build
-
-WORKDIR /Open-Simulcast
+RUN cd ./client && \
+    npm run build && \
+    mv ./dist /tmp && \
+    rm -rf ./* && \
+    mv /tmp/dist ./
 
 # Set the start script as the entrypoint
 ENTRYPOINT ["/include/docker-entrypoint.sh"]

@@ -2,7 +2,7 @@
 
 cd /Open-Simulcast
 
-# NODE_ENV=production
+nginx
 
 # Run the client & server with concurrently
-npm run dev
+npm run prod

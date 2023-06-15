@@ -25,7 +25,7 @@
     enabled = false;
 
     const response = await fetch(
-      `http://localhost:5678/api/v1/services/${serviceId}`,
+      `/api/v1/services/${serviceId}`,
       {
         method: 'DELETE',
         headers: {

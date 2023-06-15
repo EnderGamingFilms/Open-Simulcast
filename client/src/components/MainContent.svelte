@@ -31,7 +31,7 @@
   async function loadServices() {
     doingAction = true;
 
-    const response = await fetch("http://localhost:5678/api/v1/services");
+    const response = await fetch("/api/v1/services");
     const data = await response.json();
 
     services = data.data; // Assumes "data" is the key for the array of services
@@ -43,7 +43,7 @@
     doingAction = true;
 
     for (const service of services) {
-      const response = await fetch(`http://localhost:5678/api/v1/services/disable/${service.serviceId}`, {
+      const response = await fetch(`/api/v1/services/disable/${service.serviceId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -66,7 +66,7 @@
     doingAction = true;
 
     for (const service of services) {
-      const response = await fetch(`http://localhost:5678/api/v1/services/enable/${service.serviceId}`, {
+      const response = await fetch(`/api/v1/services/enable/${service.serviceId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

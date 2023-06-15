@@ -104,7 +104,7 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         ],
         name: containerName,
         HostConfig: {
-            Binds: [`${configPath}:/app/data`],
+            Binds: [`${configPath}:/data`],
             PortBindings: {
                 "1935/tcp": [
                     {
@@ -141,7 +141,7 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         nginx.generateNginxConfig();
     }
 
-    return {container, serviceId: serviceIdentifier};
+    return { container, serviceId: serviceIdentifier };
 }
 
 // Functino to stop a running stream

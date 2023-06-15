@@ -37,7 +37,7 @@
         };
 
         // Post the service to the backend
-        const response = await fetch('http://localhost:5678/api/v1/services', {
+        const response = await fetch('/api/v1/services', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

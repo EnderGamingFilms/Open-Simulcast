@@ -27,7 +27,7 @@
     const toggle = service.enabled ? 'disable' : 'enable';
 
     const response = await fetch(
-      `http://localhost:5678/api/v1/services/${toggle}/${service.serviceId}`,
+      `/api/v1/services/${toggle}/${service.serviceId}`,
       {
         method: 'POST',
         headers: {

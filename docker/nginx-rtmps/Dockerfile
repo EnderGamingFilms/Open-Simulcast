@@ -51,8 +51,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Create the necessary folders
-RUN mkdir -p /app/data
-RUN mkdir -p /include
+RUN mkdir -p /include && mkdir -p /data
 
 # Copy over the configurations
 COPY ./include/ /include/
