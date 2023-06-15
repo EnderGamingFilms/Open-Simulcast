@@ -33,14 +33,15 @@ router.post('/enable/:serviceId', async (req, res) => {
         return res.status(404).json({ error: 'Service not found' });
     }
 
-    try {
-        service.enabled = await streams.startStream(serviceId);
+    const result = await streams.startStream(serviceId);
 
-        // services.modifyService(serviceName, service);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Something went wrong' });
+    if (!result || !result.success) {
+        console.log(result);
+
+        return res.status(500).json({ error: 'Something went wrong' }); 
     }
+
+    service.enabled = result.data;
 
     res.json(services.get(serviceId));
 });
@@ -51,18 +52,18 @@ router.post('/disable/:serviceId', async (req, res) => {
     const service = services.get(serviceId);
 
     if (!service) {
-        return res.status(404).json({ error: 'Service not found' });
+        return res.status(404).json({ error: result.message });
     }
 
-    try {
-        service.enabled = await streams.stopStream(serviceId);
+    const result = await streams.stopStream(serviceId);
 
-        // services.modifyService(serviceName, service);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Something went wrong' });
-        return;
+    if (!result || !result.success) {
+        console.log(result);
+        
+        return res.status(500).json({ error: result.message }); 
     }
+
+    service.enabled = result.data;
 
     res.json(services.get(serviceId));
 });

@@ -50,7 +50,7 @@ async function loadStreams() {
 
                 await createContainer(serviceName, port, rtmpUrl, streamKey, useTls, enabled);
             } else {
-                data.set(serviceId, { container, port });
+                data.set(serviceId, container);
 
                 // Start or stop the container based on the service's enabled status
                 let running = false;
@@ -146,53 +146,75 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
 
 // Functino to stop a running stream
 async function stopStream(serviceId) {
-    const { container } = data.get(serviceId);
+    const container = data.get(serviceId);
 
     if (!container) {
-        throw new Error('Container does not exist - ' + serviceId);
+        return {
+            success: false,
+            message: `Container does not exist - ${serviceId}`,
+            data: true // assume if you are stopping a container it was originally running
+        };
     }
 
     const containerData = await container.inspect();
     const running = containerData.State.Running;
 
     if (!running) {
-        console.log('Fail to stop stream - Container is not running - ' + serviceId);
-        return running;
+        return {
+            success: false,
+            message: `Container is not running - ${serviceId}`,
+            data: false
+        };
     }
 
     await container.stop();
 
     const info = await container.inspect();
 
-    return info.State.Running;
+    return {
+        success: true,
+        message: `Container stopped - ${serviceId}`,
+        data: info.State.Running
+    };
 }
 
 // Function to start a stopped stream
 async function startStream(serviceId) {
-    const { container } = data.get(serviceId);
+    const container = data.get(serviceId);
 
     if (!container) {
-        throw new Error('Container does not exist - ' + serviceId);
+        return {
+            success: false,
+            message: `Container does not exist - ${serviceId}`,
+            data: false // assume if you are starting a container it was originally running
+        };
     }
 
     const containerData = await container.inspect();
     const running = containerData.State.Running;
 
     if (running) {
-        console.log('Fail to start stream - Container is already running - ' + serviceId);
-        return running;
+        return {
+            success: false,
+            message: `Container is already running - ${serviceId}`,
+            data: true
+        };
     }
 
     await container.start();
 
     const info = await container.inspect();
 
-    return info.State.Running;
+    return {
+        success: true,
+        message: `Container started - ${serviceId}`,
+        data: info.State.Running
+    };
 }
 
 // Function to delete a stream from the data map
 async function deleteStream(serviceId) {
-    const { container } = data.get(serviceId);
+    const container = data.get(serviceId);
 
     await container.remove();
 
