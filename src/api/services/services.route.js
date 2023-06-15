@@ -39,9 +39,16 @@ router.post('/enable/:serviceId', async (req, res) => {
         console.log(result);
 
         return res.status(500).json({ error: 'Something went wrong' }); 
+    } else {
+        console.log('=============================');
+        console.log('         Action Made         ');
+        console.log('=============================');
+        console.log(result);
     }
 
     service.enabled = result.data;
+
+    services.saveServices();
 
     res.json(services.get(serviceId));
 });
@@ -61,9 +68,16 @@ router.post('/disable/:serviceId', async (req, res) => {
         console.log(result);
         
         return res.status(500).json({ error: result.message }); 
+    } else {
+        console.log('=============================');
+        console.log('         Action Made         ');
+        console.log('=============================');
+        console.log(result);
     }
 
     service.enabled = result.data;
+
+    services.saveServices();
 
     res.json(services.get(serviceId));
 });
