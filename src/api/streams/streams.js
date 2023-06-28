@@ -104,7 +104,7 @@ async function createContainer(serviceName, port, rtmpUrl, streamKey, useTls, en
         ],
         name: containerName,
         HostConfig: {
-            Binds: [`${configPath}:/data`],
+            Binds: [`${configPath}:/app`],
             PortBindings: {
                 "1935/tcp": [
                     {
